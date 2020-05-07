@@ -40,6 +40,7 @@ const App = () => {
 
   const editNote = (item) => {
     localStorage.getItem(item);
+    localStorage.removeItem(item.title);
     setTitle(item.title);
     setText(item.text);
     setShow(true);

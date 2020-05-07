@@ -2,17 +2,26 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import MarkdownInput from './components/MarkdownInput';
 import NoteDisplay from './components/NoteDisplay';
-import 'bootstrap/dist/css/bootstrap.css';
 import NoteList from './components/NoteList';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const App = () => {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [show, setShow] = useState('');
+  const [counter, setCounter] = useState(0);
+
+  const newNote = () => {
+    setTitle('');
+    setText('');
+    setShow(true);
+  };
+
   const handleInput = (input) => {
     setTitle(input.title);
     setText(input.text);
   };
+
   const saveNote = (input) => {
     const noteSTR = [];
     const obj = JSON.stringify(input);
@@ -23,32 +32,34 @@ const App = () => {
   };
 
   const openNote = (item) => {
-    console.log(item);
     localStorage.getItem(item);
     setTitle(item.title);
     setText(item.text);
     setShow(false);
   };
 
-  const deleteNote = (item) => {
-    localStorage.removeItem(item);
+  const editNote = (item) => {
+    localStorage.getItem(item);
     setTitle(item.title);
     setText(item.text);
+    setShow(true);
   };
 
-  const showNote = () => (
-    setShow(true)
-  );
+  const deleteNote = (item) => {
+    localStorage.removeItem(item.title);
+    setCounter(counter + 1);
+  };
+
   return (
     <>
       <div className="container mt-3">
         <div className="row">
           <div className="col-md-4 border-right">
-            <NoteList showNote={showNote} openNote={openNote} deleteNote={deleteNote} />
+            <NoteList newNote={newNote} openNote={openNote} deleteNote={deleteNote} editNote={editNote} />
           </div>
           <div className="col-md-8">
             <NoteDisplay title={title} text={text} />
-            {show && <MarkdownInput handleInput={handleInput} saveNote={saveNote} />}
+            {show && <MarkdownInput handleInput={handleInput} saveNote={saveNote} title={title} text={text} />}
           </div>
         </div>
       </div>

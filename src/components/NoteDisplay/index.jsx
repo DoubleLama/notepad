@@ -10,8 +10,8 @@ const NoteDisplay = ({ title, text }) => {
   const mdTitle = converter.makeHtml(title);
 
   return (
-    <div className="container" style={{ minHeight: '200px' }}>
-      <div dangerouslySetInnerHTML={{ __html: mdTitle }} />
+    <div className="container" style={{ minHeight: '300px' }}>
+      <h1 dangerouslySetInnerHTML={{ __html: mdTitle }} />
       <div dangerouslySetInnerHTML={{ __html: mdText }} />
     </div>
   );
